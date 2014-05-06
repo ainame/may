@@ -27,8 +27,8 @@ module May
   end
 
   class Generator
-    def initialize(binding)
-      @binding = binding
+    def initialize(bind)
+      @binding = bind
     end
 
     def generate(template)
@@ -37,8 +37,8 @@ module May
   end
 
   class Templator
-    def initialize(template_path, destination, binding)
-      @template_path, @destination, @binding = class_name, template_path, binding
+    def initialize(template_path, destination, bind)
+      @template_path, @destination, @binding = class_name, template_path, bind
     end
 
     def render
