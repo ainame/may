@@ -23,7 +23,7 @@ module May
         parse_args(args)
 
         resolver.each(@path, @template_name) do |template_path, destination|
-          puts "use emplate: #{template_path}"
+          puts "use template: #{template_path}"
           puts "write: #{destination}"
 
           write_generate_file(template_path, destination)
