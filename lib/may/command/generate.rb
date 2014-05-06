@@ -6,20 +6,20 @@ module May
   class Command
     class Generate
       def self.run(context, *args)
-        new(context).run(*args)
+        new(context).run_with_root_dir(*args)
       end
 
       def initialize(context)
         @context = context
       end
 
-      def run(*args)
+      def run_with_root_dir(*args)
         Dir.chdir(@context.root_dir) do
-          run_wtihout_context(*args)
+          run(*args)
         end
       end
 
-      def run_wtihout_context(*args)
+      def run(*args)
         parse_args(args)
 
         xcodeproj = May::Xcodeproj.new(@context.xcodeproj_path)
