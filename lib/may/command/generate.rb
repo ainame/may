@@ -22,12 +22,13 @@ module May
       def run(*args)
         parse_args(args)
 
-        xcodeproj = May::Xcodeproj.new(@context.xcodeproj_path)
         resolver.each(@path, @template_name) do |template_path, destination|
           puts "use emplate: #{template_path}"
           puts "write: #{destination}"
+
           write_generate_file(template_path, destination)
           xcodeproj.add_file(destination)
+
           puts ''
         end
 
@@ -44,6 +45,10 @@ module May
 
       def resolver
         @resolver ||= May::PathResolver.new(@context)
+      end
+
+      def xcodeproj
+        @xcodeproj ||= May::Xcodeproj.new(@context.xcodeproj_path)
       end
 
       def write_generate_file(template_path, destination)
