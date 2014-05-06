@@ -47,7 +47,8 @@ module May
       end
 
       def write_generate_file(template_path, destination)
-        May::Templator.new(@class_name, template_path, destination).write
+        binding = May::RenderBinding.new(class_name: @class_name)
+        May::Templator.new(template_path, destination, binding).write
       end
     end
   end

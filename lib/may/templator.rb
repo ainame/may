@@ -27,24 +27,23 @@ module May
   end
 
   class Generator
-    def initialize(context)
-      @context = context
+    def initialize(binding)
+      @binding = binding
     end
 
     def generate(template)
-      Tilt::ERBTemplate.new(template.path, { trim: '<>' }).render(@context)
+      Tilt::ERBTemplate.new(template.path, { trim: '<>' }).render(@binding)
     end
   end
 
   class Templator
-    def initialize(class_name, template_path, destination)
-      @class_name, @template_path, @destination = class_name, template_path, destination
+    def initialize(template_path, destination, binding)
+      @template_path, @destination, @binding = class_name, template_path, binding
     end
 
     def render
-      context = RenderBinding.new(class_name: @class_name)
       template = Template.new(@template_path)
-      Generator.new(context).generate(template)
+      Generator.new(@binding).generate(template)
     end
 
     def write
