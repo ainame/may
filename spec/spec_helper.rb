@@ -18,7 +18,7 @@ class Fixtures
     end
 
     def file(filename)
-      File.open(File.join(dir, filename))
+      File.expand_path(File.join(dir, filename))
     end
   end
 

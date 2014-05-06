@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'may/generator'
+require 'may/templator'
 
 describe May::Template do
   context 'given file as a argument' do
@@ -24,9 +24,9 @@ end
 
 describe May::Generator do
   context 'given template file' do
-    let(:context)  { May::RenderContext.new(class: 'SampleViewController') }
+    let(:binding)  { May::RenderBinding.new(class_name: 'SampleViewController') }
     let(:template) { May::Template.new(Fixtures.file('SampleViewController.m.erb')) }
-    let(:subject)  { May::Generator.new(context) }
+    let(:subject)  { May::Generator.new(binding) }
 
     describe 'generate' do
       it 'should render' do

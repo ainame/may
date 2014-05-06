@@ -3,7 +3,7 @@ require 'tilt/erb'
 module May
   class Template
     def initialize(path)
-      @file = File.open(path, 'r')
+      @file = File.open(path, 'r') if path
     end
 
     def path
@@ -16,7 +16,7 @@ module May
     end
   end
 
-  class RenderContext
+  class RenderBinding
     def initialize(hash)
       @hash = hash
     end
@@ -27,10 +27,6 @@ module May
   end
 
   class Generator
-    def self.generate(tempalte)
-      new(RenderContext.new).generate(template)
-    end
-
     def initialize(context)
       @context = context
     end
@@ -46,7 +42,7 @@ module May
     end
 
     def render
-      context = RenderContext.new(class_name: @class_name)
+      context = RenderBinding.new(class_name: @class_name)
       template = Template.new(@template_path)
       Generator.new(context).generate(template)
     end
