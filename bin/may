@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'may'
+require 'methadone'
+include Methadone::Main
+include Methadone::CLILogging
+
+version     May::VERSION
+description 'generate Objective-C files'
+arg 'path', 'file name which you want to generate'
+arg 'super_class', :optional, 'super class whihc you want to specific, default is a NSObject'
+
+main do |path, super_class_name|
+  May::Command.generate(path: path, super_class_name: super_class_name)
+end
+
+go!
