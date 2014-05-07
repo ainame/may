@@ -38,7 +38,7 @@ module May
 
   class Templator
     def initialize(template_path, destination, bind)
-      @template_path, @destination, @binding = class_name, template_path, bind
+      @template_path, @destination, @binding = template_path, destination, bind
     end
 
     def render
