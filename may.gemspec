@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = May::VERSION
   spec.authors       = ["ainame"]
   spec.email         = ["s.namai.2012@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{may is a CLI tools for generating Objective-C based class files to a Xcode project.}
+  spec.description   = %q{may is a CLI tools for generating Objective-C based class files to a Xcode project. }
   spec.homepage      = ""
   spec.license       = "MIT"
 
