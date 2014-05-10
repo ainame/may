@@ -32,7 +32,7 @@ module May
       node = @project.main_group
       begin
         group_nodes.each do |destinaton|
-          node = node.groups.select{ |group| group.path == destinaton }.first
+          node = node.groups.select{ |group| group.path == destinaton || group.name == destination }.first
         end
       rescue
         warn "Can't find group(#{group_path})."
