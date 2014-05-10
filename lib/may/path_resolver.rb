@@ -47,8 +47,8 @@ module May
 
   class DestinationResolver < FileResolver
     private
-    def join(filename)
-      File.join(@base_dir, filename)
+    def join(path)
+      File.join(@base_dir, path)
     end
   end
 
@@ -59,9 +59,14 @@ module May
 
     def each(path, template_name)
       raise unless block_given?
-      yield template_resolver.header_file(template_name), source_project.header_file(path)
-      yield template_resolver.implementation_file(template_name), source_project.implementation_file(path)
-      yield template_resolver.test_file(template_name), test_project.test_file(path)
+      relative_path = except_project_path(path)
+      yield template_resolver.header_file(template_name), source_project.header_file(relative_path)
+      yield template_resolver.implementation_file(template_name), source_project.implementation_file(relative_path)
+      yield template_resolver.test_file(template_name), test_project.test_file(relative_path)
+    end
+
+    def except_project_path(path)
+      path.split("/").select{ |str| str != '.' && str != '..' }[1..-1].join('/')
     end
 
     def template_resolver

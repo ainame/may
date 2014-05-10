@@ -23,7 +23,7 @@ module May
     def exists?(real_path)
       group_path = retrive_relative_path(real_path)
       group = visit_group(group_path)
-      group.files.map(&:path).include?(File.basename(real_path))
+      group.files.map(&:path).include?(File.basename(real_path)) || group.files.map(&:name).include?(File.basename(real_path))
     end
 
     private
@@ -31,8 +31,8 @@ module May
       group_nodes = group_path.split('/').select{ |x| !x.empty? }
       node = @project.main_group
       begin
-        group_nodes.each do |destinaton|
-          node = node.groups.select{ |group| group.path == destinaton || group.name == destination }.first
+        group_nodes.each do |destination|
+          node = node.groups.select{ |group| group.path == destination || group.name == destination }.first
         end
       rescue
         warn "Can't find group(#{group_path})."
