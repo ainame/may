@@ -14,14 +14,21 @@ module May
       end
 
       def run_with_root_dir(*args)
+        parse_args(args)
         Dir.chdir(@context.root_dir) do
-          run(*args)
+          run
         end
       end
 
-      def run(*args)
-        parse_args(args)
+      def parse_args(args)
+        h = args.shift
+        raise "Can't parse options" unless h.kind_of?(Hash)
+        @path = h[:path]
+        @class_name = File.basename(h[:path])
+        @template_name = h[:super_class_name] || 'NSObject'
+      end
 
+      def run
         resolver.each(@path, @template_name) do |template_path, destination|
           puts "use template: #{template_path}"
           puts "write: #{destination}"
@@ -33,14 +40,6 @@ module May
         end
 
         xcodeproj.save
-      end
-
-      def parse_args(args)
-        h = args.shift
-        raise "Can't parse options" unless h.kind_of?(Hash)
-        @path = h[:path]
-        @class_name = File.basename(h[:path])
-        @template_name = h[:super_class_name] || 'NSObject'
       end
 
       def resolver
