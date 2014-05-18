@@ -16,16 +16,6 @@ module May
     end
   end
 
-  class RenderBinding
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def class_name
-      @hash[:class_name]
-    end
-  end
-
   class Generator
     def initialize(bind)
       @binding = bind
