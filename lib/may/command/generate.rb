@@ -1,4 +1,5 @@
 require 'may/templator'
+require 'may/render_binding'
 require 'may/path_resolver'
 require 'may/xcodeproj'
 
@@ -21,11 +22,11 @@ module May
       end
 
       def parse_args(args)
-        h = args.shift
-        raise "Can't parse options" unless h.kind_of?(Hash)
-        @path = h[:path]
-        @class_name = File.basename(h[:path])
-        @template_name = h[:super_class_name] || 'NSObject'
+        raise "Can't find path" unless args.size > 0
+        @path          = args.shift
+        @class_name    = File.basename(@path)
+        @options       = args.pop
+        @template_name = options[:super_class] || 'NSObject'
       end
 
       def run
@@ -51,7 +52,7 @@ module May
       end
 
       def write_generate_file(template_path, destination)
-        bind = May::RenderBinding.new(class_name: @class_name)
+        bind = May::RenderBinding.new(class_name: @class_name, options: @options)
         May::Templator.new(template_path, destination, bind).write
       end
     end
