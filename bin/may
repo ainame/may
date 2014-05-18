@@ -7,10 +7,13 @@ include Methadone::CLILogging
 version     May::VERSION
 description 'generate Objective-C files'
 arg 'path', 'file name which you want to generate'
-arg 'super_class', :optional, 'super class whihc you want to specific, default is a NSObject'
+options['super_class'] = 'NSObject'
+on('-s SUPER_CLASS', '--super_class', 'Super Class', /.*/)
+on('-a', '--async_test', 'add TKRGuard to test cases')
+on('-m', '--mock_test',  'add OCMock to test case')
 
-main do |path, super_class_name|
-  May::Command.generate(path: path, super_class_name: super_class_name)
+main do |path|
+  May::Command.generate(path, options)
 end
 
 go!
