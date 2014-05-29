@@ -4,7 +4,7 @@ require 'may/path_resolver'
 require 'may/xcodeproj'
 
 module May
-  class Command
+  class Command < CLAide::Command
     class Generate
       def self.run(context, *args)
         new(context).run_with_root_dir(*args)

@@ -1,19 +1,23 @@
 #!/usr/bin/env ruby
 require 'may'
-require 'methadone'
-include Methadone::Main
-include Methadone::CLILogging
+# require 'methadone'
+# include Methadone::Main
+# include Methadone::CLILogging
 
-version     May::VERSION
-description 'generate Objective-C files'
-arg 'path', 'file name which you want to generate'
-options['super_class'] = 'NSObject'
-on('-s SUPER_CLASS', '--super_class', 'Super Class', /.*/)
-on('-a', '--async_test', 'add TKRGuard to test cases')
-on('-m', '--mock_test',  'add OCMock to test case')
+# version     May::VERSION
+# description 'generate Objective-C files'
+# arg 'path', 'file name which you want to generate'
+# options['super_class'] = 'NSObject'
+# on('-s SUPER_CLASS', '--super_class', 'Super Class', /.*/)
+# on('-a', '--async_test', 'add TKRGuard to test cases')
+# on('-m', '--mock_test',  'add OCMock to test case')
 
-main do |path|
-  May::Command.generate(path, options)
-end
+# main do |path|
+#   May::Command.generate(path, options)
+# end
 
-go!
+# go!
+
+require 'claide'
+
+May::Command.run(ARGV)
