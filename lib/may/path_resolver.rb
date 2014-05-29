@@ -32,7 +32,7 @@ module May
     end
 
     def test_file(path)
-      join(path + 'Test.m')
+      join(path + 'Tests.m')
     end
   end
 
