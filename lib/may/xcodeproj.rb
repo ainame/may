@@ -6,6 +6,10 @@ module May
       @project = ::Xcodeproj::Project.open(path)
     end
 
+    def organization_name
+      @project.root_object.attributes["ORGANIZATIONNAME"]
+    end
+
     def add_file(real_path, group_path = nil)
       group_path = retrive_relative_path(real_path) unless group_path
       group = visit_group(group_path)
@@ -14,6 +18,10 @@ module May
 
     def retrive_relative_path(abs_real_path)
       File.dirname(abs_real_path).sub(File.dirname(@project.path.to_s), '')
+    end
+
+    def build_targets
+      @project.root_object.targets
     end
 
     def save

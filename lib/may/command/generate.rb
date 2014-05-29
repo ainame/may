@@ -52,7 +52,13 @@ module May
       end
 
       def write_generate_file(template_path, destination)
-        bind = May::RenderBinding.new(class_name: @class_name, options: @options)
+        bind = May::RenderBinding.new(
+          class_name: @class_name,
+          organization_name: xcodeproj.organization_name,
+          author_name: `git config --global --get user.name`.chomp,
+          project_name: xcodeproj.build_targets[0].name,
+          options: @options
+        )
         May::Templator.new(template_path, destination, bind).write
       end
     end
