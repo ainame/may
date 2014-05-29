@@ -45,6 +45,15 @@ module May
     end
   end
 
+  class ProjectTemplateResolver < FileResolver
+    EXTENTION_NAME = '.erb'
+    private
+    def join(path)
+      template_filename = path + EXTENTION_NAME
+      File.join(@base_dir, template_filename)
+    end
+  end
+
   class DestinationResolver < FileResolver
     private
     def join(path)
@@ -60,9 +69,13 @@ module May
     def each(path, template_name)
       raise unless block_given?
       relative_path = except_project_path(path)
-      yield template_resolver.header_file(template_name), source_project.header_file(relative_path)
-      yield template_resolver.implementation_file(template_name), source_project.implementation_file(relative_path)
-      yield template_resolver.test_file(template_name), test_project.test_file(relative_path)
+      yield project_or_base_template_resolver(template_name).header_file(template_name), source_project.header_file(relative_path)
+      yield project_or_base_template_resolver(template_name).implementation_file(template_name), source_project.implementation_file(relative_path)
+      yield project_or_base_template_resolver(template_name).test_file(template_name), test_project.test_file(relative_path)
+    end
+
+    def project_or_base_template_resolver(template_name)
+      File.exist?(project_template_resolver.header_file(template_name)) ? project_template_resolver : template_resolver
     end
 
     def except_project_path(path)
@@ -71,6 +84,10 @@ module May
 
     def template_resolver
       @template_resolver ||= TemplateResolver.new(@context.template_dir)
+    end
+
+    def project_template_resolver
+      @project_template_resolver ||= ProjectTemplateResolver.new(@context.project_template_dir)
     end
 
     def project_resolver

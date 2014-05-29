@@ -13,6 +13,10 @@ module May
       File.expand_path(File.join(File.dirname(__FILE__),'../../templates'))
     end
 
+    def project_template_dir
+      File.join(root_dir, '.templates')
+    end
+
     def xcodeproj_path
       Dir[File.join(root_dir, '*.xcodeproj')].first
     end
