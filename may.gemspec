@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "tilt"
   spec.add_runtime_dependency "xcodeproj"
   spec.add_runtime_dependency "methadone"
+  spec.add_runtime_dependency "claide"
 end
