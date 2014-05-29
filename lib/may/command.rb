@@ -1,14 +1,14 @@
 require 'claide'
-require 'may/application_context'
-require 'may/command/generate'
 
 module May
   class Command < CLAide::Command
+    require 'may/application_context'
+    require 'may/command/generate'
+
     self.abstract_command = true
     self.command = 'may'
     self.version = VERSION
-    self.description = 'May, the Objective-C source code generator.'
-    self.plugin_prefix = 'may'
+    self.description = 'may, the Objective-C source code generator.'
 
     def self.generate(*args)
       Generate.run(ApplicationContext.new, *args)
@@ -20,5 +20,9 @@ module May
       command
     end
 
+    def initialize(argv)
+      @command = argv.shift_argument
+      super
+    end
   end
 end
