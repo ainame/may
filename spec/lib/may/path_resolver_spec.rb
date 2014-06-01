@@ -46,7 +46,7 @@ end
 describe May::FileResolver do
   context '.new with base dir' do
     let(:base_dir) { Dir.pwd }
-    let(:subject)  { May::FileResolver.new(base_dir) }
+    let(:subject)  { May::FileResolver.new(base_dir, '/path/to/destination') }
     it { should be_kind_of(May::FileResolver) }
 
     let(:some_file_path) { 'SampleViewController.m.erb' }
@@ -54,8 +54,8 @@ describe May::FileResolver do
       context 'call with path' do
         it 'should return path as .h file' do
           subject.stub(:join)
-          subject.header_file('aaa')
-          expect(subject).to have_received(:join).with('aaa' + '.h').once
+          subject.header_file
+          expect(subject).to have_received(:join).with('/path/to/destination' + '.h').once
         end
       end
     end
@@ -64,18 +64,18 @@ describe May::FileResolver do
       context 'call with path' do
         it 'should return path as .m file' do
           subject.stub(:join)
-          subject.implementation_file('aaa')
-          expect(subject).to have_received(:join).with('aaa' + '.m').once
+          subject.implementation_file
+          expect(subject).to have_received(:join).with('/path/to/destination' + '.m').once
         end
       end
     end
 
     describe '#test_file' do
       context 'call with path' do
-        it 'should return path as Test.m file' do
+        it 'should return path as Tests.m file' do
           subject.stub(:join)
-          subject.test_file('aaa')
-          expect(subject).to have_received(:join).with('aaa' + 'Test.m').once
+          subject.test_file
+          expect(subject).to have_received(:join).with('/path/to/destination' + 'Tests.m').once
         end
       end
     end

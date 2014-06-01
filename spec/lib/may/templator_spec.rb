@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'may/render_binding'
 require 'may/templator'
 
 describe May::Template do
