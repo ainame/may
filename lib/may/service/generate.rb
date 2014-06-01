@@ -6,45 +6,59 @@ require 'may/xcodeproj'
 module May
   module Service
     class Generate
-      def self.run(context, *args)
-        new(context).run_with_root_dir(*args)
+      class InvalidArgumentError< StandardError; end
+
+      def self.run(context, arguments = {})
+        new(context).run_with_root_dir(arguments)
       end
 
       def initialize(context)
         @context = context
       end
 
-      def run_with_root_dir(*args)
-        parse_args(args)
+      def run_with_root_dir(arguments)
+        parse_args(arguments)
         Dir.chdir(@context.root_dir) do
+          validate!
           run
         end
       end
 
-      def parse_args(args)
-        raise "Can't find path" unless args.size > 0
-        @path          = args.shift
-        @class_name    = File.basename(@path)
-        @options       = args.pop
-        @template_name = options[:super_class] || 'NSObject'
+      def parse_args(arguments)
+        raise "Can't find path" unless arguments.size > 0
+        @path          = arguments[:path]
+        @options       = arguments[:options]
+        @class_name    = File.basename(@path) if @path
+        @template_name = @options[:super_class] || 'NSObject' if @options
+      end
+
+      def validate!
+        raise InvalidArgumentError unless File.exist?(File.dirname(@path))
       end
 
       def run
-        resolver.each(@path, @template_name) do |template_path, destination|
-          puts "use template: #{template_path}"
-          puts "write: #{destination}"
-
-          write_generate_file(template_path, destination)
-          xcodeproj.add_file(destination)
-
-          puts ''
+        resolver.tap do |r|
+          p r.template.test_file
+          p r.source_project.test_file
+          add_file(r.template.header_file, r.source_project.header_file)
+          add_file(r.template.implementation_file, r.source_project.implementation_file)
+          add_file(r.template.test_file, r.test_project.test_file)
         end
-
         xcodeproj.save
       end
 
+      def add_file(template_path, destination)
+        puts "use template: #{template_path}"
+        puts "write: #{destination}"
+
+        write_generate_file(template_path, destination)
+        xcodeproj.add_file(destination)
+
+        puts ''
+      end
+
       def resolver
-        @resolver ||= May::PathResolver.new(@context)
+        @resolver ||= May::PathResolver.new(@context, @path, @template_name)
       end
 
       def xcodeproj

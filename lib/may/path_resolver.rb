@@ -19,33 +19,24 @@ module May
   end
 
   class FileResolver
-    def initialize(base_dir)
-      @base_dir = base_dir
+    def initialize(base_dir, path)
+      @base_dir, @path = base_dir, path
     end
 
-    def header_file(path)
-      join(path + '.h')
+    def header_file
+      join(@path + '.h')
     end
 
-    def implementation_file(path)
-      join(path + '.m')
+    def implementation_file
+      join(@path + '.m')
     end
 
-    def test_file(path)
-      join(path + 'Tests.m')
+    def test_file
+      join(@path + 'Tests.m')
     end
   end
 
   class TemplateResolver < FileResolver
-    EXTENTION_NAME = '.erb'
-    private
-    def join(path)
-      template_filename = path + EXTENTION_NAME
-      File.join(@base_dir, template_filename)
-    end
-  end
-
-  class ProjectTemplateResolver < FileResolver
     EXTENTION_NAME = '.erb'
     private
     def join(path)
@@ -62,44 +53,30 @@ module May
   end
 
   class PathResolver
-    def initialize(context)
-      @context = context
+    def initialize(context, path, template_name)
+      @context, @path, @template_name = context, path, template_name
+      @relative_path = except_project_path(path)
     end
 
-    def each(path, template_name)
-      raise unless block_given?
-      relative_path = except_project_path(path)
-      yield project_or_base_template_resolver(template_name).header_file(template_name), source_project.header_file(relative_path)
-      yield project_or_base_template_resolver(template_name).implementation_file(template_name), source_project.implementation_file(relative_path)
-      yield project_or_base_template_resolver(template_name).test_file(template_name), test_project.test_file(relative_path)
-    end
-
-    def project_or_base_template_resolver(template_name)
-      File.exist?(project_template_resolver.header_file(template_name)) ? project_template_resolver : template_resolver
-    end
-
-    def except_project_path(path)
-      path.split("/").select{ |str| str != '.' && str != '..' }[1..-1].join('/')
-    end
-
-    def template_resolver
-      @template_resolver ||= TemplateResolver.new(@context.template_dir)
-    end
-
-    def project_template_resolver
-      @project_template_resolver ||= ProjectTemplateResolver.new(@context.project_template_dir)
-    end
-
-    def project_resolver
+    def project
       @project_resolver ||= ProjectResolver.new(@context.root_dir)
     end
 
+    def template
+      @template_resolver ||= TemplateResolver.new(@context.project_template_dir, @template_name)
+    end
+
     def source_project
-      @source_project ||= DestinationResolver.new(project_resolver.source_project)
+      @source_project ||= DestinationResolver.new(project.source_project, @relative_path)
     end
 
     def test_project
-      @test_project ||= DestinationResolver.new(project_resolver.test_project)
+      @test_project ||= DestinationResolver.new(project.test_project, @relative_path)
+    end
+
+    private
+    def except_project_path(path)
+      path.split("/").select{ |str| str != '.' && str != '..' }[1..-1].join('/')
     end
   end
 end
