@@ -24,6 +24,7 @@ module May
         end
       end
 
+      private
       def parse_args(arguments)
         raise "Can't find path" unless arguments.size > 0
         @path          = arguments[:path]
@@ -49,7 +50,7 @@ module May
         puts "use template: #{template_path}"
         puts "write: #{destination}"
 
-        write_generate_file(template_path, destination)
+        write_generating_file(template_path, destination)
         xcodeproj.add_file(destination)
 
         puts ''
@@ -63,7 +64,7 @@ module May
         @xcodeproj ||= May::Xcodeproj.new(@context.xcodeproj_path)
       end
 
-      def write_generate_file(template_path, destination)
+      def write_generating_file(template_path, destination)
         bind = May::RenderBinding.new(bind_values)
         May::Templator.new(template_path, destination, bind).write
       end
@@ -71,7 +72,7 @@ module May
       def bind_values
         {
           class_name: @class_name,
-          options: @options
+          options: @options,
           organization_name: xcodeproj.organization_name,
           project_name: xcodeproj.build_targets[0].name,
           author_name: `git config --global --get user.name`.chomp,
