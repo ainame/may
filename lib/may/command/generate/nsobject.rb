@@ -24,7 +24,10 @@ EOS
         end
 
         def run
-          Service::Generate.run(ApplicationContext.new, { path: @path, options: @options })
+          Service::Generate.run(
+            ApplicationContext.new,
+            { path: @path, options: @options.merge({ super_class: 'NSObject' }) }
+          )
         end
       end
     end
