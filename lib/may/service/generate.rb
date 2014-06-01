@@ -27,10 +27,11 @@ module May
       private
       def parse_args(arguments)
         raise "Can't find path" unless arguments.size > 0
-        @path          = arguments[:path]
-        @options       = arguments[:options]
-        @class_name    = File.basename(@path) if @path
-        @template_name = @options[:super_class] || 'NSObject' if @options
+        @path             = arguments[:path]
+        @options          = arguments[:options]
+        @super_class_name = arguments[:super_class_name]
+        @template_name    = arguments[:template_name]
+        @class_name       = File.basename(@path) if @path
       end
 
       def validate!
@@ -68,6 +69,7 @@ module May
       def bind_values
         May::RenderBinding.new(
           class_name: @class_name,
+          super_class_name: @super_class_name,
           options: @options,
           organization_name: xcodeproj.organization_name,
           project_name: xcodeproj.build_targets[0].name,

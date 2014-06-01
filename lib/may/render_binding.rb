@@ -8,6 +8,10 @@ module May
       @hash[:class_name]
     end
 
+    def super_class_name
+      @hash[:super_class_name]
+    end
+
     def organization_name
       @hash[:organization_name]
     end
