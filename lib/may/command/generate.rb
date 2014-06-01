@@ -1,31 +1,11 @@
 # -*- coding: utf-8 -*-
-require 'may/service/generate'
-
 module May
   class Command
     class Generate < Command
+      require 'may/command/generate/nsobject'
+
+      self.abstract_command = true
       self.command = 'generate'
-      self.description = <<EOS
-PATH is a file path which you want to generate file without extension name.
-EOS
-      self.arguments = [
-        ['PATH', :required],
-      ]
-
-      def initialize(argv)
-        super
-        @path    = argv.shift_argument
-        @options = argv.options
-      end
-
-      def validate!
-        super
-        help! 'Can\'t find a PATH' unless @path
-      end
-
-      def run
-        Service::Generate.run(ApplicationContext.new, { path: @path, options: @options })
-      end
     end
   end
 end
