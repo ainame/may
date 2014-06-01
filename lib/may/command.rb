@@ -3,6 +3,7 @@ require 'claide'
 module May
   class Command < CLAide::Command
     require 'may/application_context'
+    require 'may/command/init'
     require 'may/command/generate'
 
     self.abstract_command = true
