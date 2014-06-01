@@ -43,15 +43,16 @@ module May
           add_file(r.template.implementation_file, r.source_project.implementation_file)
           add_file(r.template.test_file, r.test_project.test_file)
         end
-        xcodeproj.save
       end
 
       def add_file(template_path, destination)
         puts "use template: #{template_path}"
         puts "write: #{destination}"
 
-        write_generating_file(template_path, destination)
+        templator = May::Templator.new(template_path, destination, bind_values)
+        templator.write
         xcodeproj.add_file(destination)
+        xcodeproj.save
 
         puts ''
       end
@@ -64,19 +65,14 @@ module May
         @xcodeproj ||= May::Xcodeproj.new(@context.xcodeproj_path)
       end
 
-      def write_generating_file(template_path, destination)
-        bind = May::RenderBinding.new(bind_values)
-        May::Templator.new(template_path, destination, bind).write
-      end
-
       def bind_values
-        {
+        May::RenderBinding.new(
           class_name: @class_name,
           options: @options,
           organization_name: xcodeproj.organization_name,
           project_name: xcodeproj.build_targets[0].name,
           author_name: `git config --global --get user.name`.chomp,
-        }
+        )
       end
     end
   end
