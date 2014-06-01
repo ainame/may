@@ -14,8 +14,8 @@ EOS
 
       def initialize(argv)
         super
-        @path          = argv.shift_argument
-        @options       = argv.options
+        @path    = argv.shift_argument
+        @options = argv.options
       end
 
       def validate!
