@@ -38,8 +38,6 @@ module May
 
       def run
         resolver.tap do |r|
-          p r.template.test_file
-          p r.source_project.test_file
           add_file(r.template.header_file, r.source_project.header_file)
           add_file(r.template.implementation_file, r.source_project.implementation_file)
           add_file(r.template.test_file, r.test_project.test_file)
@@ -66,14 +64,18 @@ module May
       end
 
       def write_generate_file(template_path, destination)
-        bind = May::RenderBinding.new(
-          class_name: @class_name,
-          organization_name: xcodeproj.organization_name,
-          author_name: `git config --global --get user.name`.chomp,
-          project_name: xcodeproj.build_targets[0].name,
-          options: @options
-        )
+        bind = May::RenderBinding.new(bind_values)
         May::Templator.new(template_path, destination, bind).write
+      end
+
+      def bind_values
+        {
+          class_name: @class_name,
+          options: @options
+          organization_name: xcodeproj.organization_name,
+          project_name: xcodeproj.build_targets[0].name,
+          author_name: `git config --global --get user.name`.chomp,
+        }
       end
     end
   end
