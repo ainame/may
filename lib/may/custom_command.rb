@@ -11,7 +11,7 @@ module May
     end
 
     def load
-      @content = custom_file = File.open(@context.custom_file).read
+      @content = File.open(@context.custom_file).read
     end
 
     def eval_custom_file
