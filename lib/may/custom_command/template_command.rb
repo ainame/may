@@ -1,7 +1,8 @@
 module May
   class CustomCommand
     class TemplateCommand
-      attr_accessor :command_name, :template_name, :description, :default_super_class
+      attr_accessor :command_name, :template_name,
+        :description, :default_super_class, :arguments
     end
 
     class Builder
@@ -27,6 +28,10 @@ module May
 
       def default_super_class(default_super_class)
         @command.default_super_class = default_super_class
+      end
+
+      def arguments(arguments)
+        @command.arguments = arguments
       end
     end
   end
