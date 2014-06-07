@@ -1,0 +1,17 @@
+# Mayfile can register custom generate command.
+#
+# example:
+#
+#    register_command 'api' do
+#      template_name 'APIClient'
+#      description <<EOS
+#    this is sample api client
+#    EOS
+#      arguments [
+#        ['HTTP_METHOD', :required],
+#        ['ENDPOINT', :required],
+#        ['PARAMETERS', :optional]
+#      ]
+#      default_super_class 'AMEAPIClient'
+#    end
+#
