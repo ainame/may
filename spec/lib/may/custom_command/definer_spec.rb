@@ -6,7 +6,8 @@ describe May::CustomCommand::Definer::Generate do
   before do
     class Foo
       class << self
-        attr_accessor :command, :template_name, :description, :default_super_class
+        attr_accessor :command, :template_name,
+         :description, :default_super_class, :arguments
       end
     end
     May::CustomCommand::Container.clear
@@ -23,10 +24,10 @@ describe May::CustomCommand::Definer::Generate do
 
       it "define subclass of Foo" do
         May::CustomCommand::Definer::Generate.new(Foo).define_commad(command)
-        expect(Aaa.command).to eq('aaa')
-        expect(Aaa.template_name).to eq('bbb')
-        expect(Aaa.description).to eq('ccc')
-        expect(Aaa.default_super_class).to eq('ddd')
+        expect(Foo::Aaa.command).to eq('aaa')
+        expect(Foo::Aaa.template_name).to eq('bbb')
+        expect(Foo::Aaa.description).to eq('ccc')
+        expect(Foo::Aaa.default_super_class).to eq('ddd')
       end
     end
   end

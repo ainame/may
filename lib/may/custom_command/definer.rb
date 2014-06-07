@@ -8,7 +8,7 @@ module May
       end
 
       def define
-        May::CustomCommand::Container.commands.each do |comand|
+        May::CustomCommand::Container.commands.each do |command|
           define_commad(command)
         end
       end
@@ -18,19 +18,20 @@ module May
       end
 
       class Generate < Definer
-        CLASS_NAME_PREFIX = 'May::Command::Generate'
-
         def define_commad(command)
           klass = Class.new(@super_class) do
             self.command = command.command_name
             self.description = command.description
             self.template_name = command.template_name
             self.default_super_class = command.default_super_class
+            self.arguments = [
+              ['PATH', :required],
+              ['SUPER_CLASS', :optional],
+            ].concat(command.arguments || [])
           end
-          klass_name = CLASS_NAME_PREFIX + command.command_name.capitalize
-
-          Object.const_set(klass_name, klass)
-          Object.const_get(klass_name)
+          klass_name = command.command_name.capitalize
+          @super_class.const_set(klass_name, klass)
+          @super_class.const_get(klass_name)
         end
       end
     end

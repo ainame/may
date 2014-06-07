@@ -1,6 +1,8 @@
 module May
   class CustomCommand
+    require 'may/custom_command/container'
     require 'may/custom_command/dsl'
+    require 'may/custom_command/definer'
 
     attr_accessor :content
 

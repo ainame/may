@@ -1,16 +1,17 @@
-require 'may/custom_command/definer'
+require 'may/command'
+require 'may/service/generate'
 
 module May
   class Command
     class Generate < Command
+      class << self
+        attr_accessor :template_name, :default_super_class
+      end
+
       require 'may/command/generate/nsobject'
 
       self.abstract_command = true
       self.command = 'generate'
-
-      class << self
-        attr_accessor :template_name, :default_super_class
-      end
 
       def initialize(argv)
         super
@@ -30,13 +31,11 @@ module May
           {
             path: @path,
             options: @options,
-            template_name: class.template_name,
-            super_class_name: (@super_class || class.default_super_class),
+            template_name: self.class.template_name,
+           super_class_name: (@super_class || self.class.default_super_class || 'NSObject'),
           }
         )
       end
     end
   end
 end
-
-May::CustomCommand::Definer::Generate.new(May::Command::Generate).define
