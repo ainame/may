@@ -29,21 +29,5 @@ module May
         @command.default_super_class = default_super_class
       end
     end
-
-    class Container
-      @commands = Array.new
-      
-      class << self
-        attr_reader :commands
-
-        def store(command)
-          @commands << command
-        end
-
-        def clear
-          @commands = Array.new
-        end
-      end
-    end
   end
 end

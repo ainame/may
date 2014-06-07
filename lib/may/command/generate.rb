@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+require 'may/custom_command/definer'
+
 module May
   class Command
     class Generate < Command
@@ -37,3 +38,5 @@ module May
     end
   end
 end
+
+May::CustomCommand::Definer::Generate.new(May::Command::Generate).define

@@ -1,4 +1,5 @@
 require 'may/custom_command/template_command'
+require 'may/custom_command/container'
 
 module May
   class CustomCommand
