@@ -20,5 +20,9 @@ module May
     def xcodeproj_path
       Dir[File.join(root_dir, '*.xcodeproj')].first
     end
+
+    def custom_file
+      File.join(root_dir, 'Mayfile')
+    end
   end
 end
