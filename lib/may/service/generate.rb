@@ -71,9 +71,11 @@ module May
           class_name: @class_name,
           super_class_name: @super_class_name,
           options: @options,
-          organization_name: xcodeproj.organization_name,
-          project_name: xcodeproj.build_targets[0].name,
-          author_name: `git config --global --get user.name`.chomp,
+          header: {
+            organization_name: xcodeproj.organization_name,
+            project_name: xcodeproj.build_targets[0].name,
+            author_name: `git config --global --get user.name`.chomp,
+          },
         )
       end
     end
