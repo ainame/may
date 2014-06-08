@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'may/render_binding'
 require 'may/templator'
 
-describe May::Template do
+describe May::Templator::Template do
   context 'given file as a argument' do
     let(:file) { Fixtures.file('SampleViewController.m.erb') }
-    let(:subject) { May::Template.new(file) }
-    it { should be_kind_of May::Template }
+    let(:subject) { May::Templator::Template.new(file) }
+    it { should be_kind_of May::Templator::Template }
 
     describe '#body' do
       its(:body) { should_not be_empty }
@@ -14,8 +14,8 @@ describe May::Template do
   end
 
   context 'given nil as a argument' do
-    let(:subject) { May::Template.new(nil) }
-    it { should be_kind_of May::Template }
+    let(:subject) { May::Templator::Template.new(nil) }
+    it { should be_kind_of May::Templator::Template }
 
     describe '#body' do
       its(:body) { should be_empty }
@@ -23,11 +23,11 @@ describe May::Template do
   end
 end
 
-describe May::Generator do
+describe May::Templator::Generator do
   context 'given template file' do
     let(:binding)  { May::RenderBinding.new(class_name: 'SampleViewController') }
-    let(:template) { May::Template.new(Fixtures.file('SampleViewController.m.erb')) }
-    let(:subject)  { May::Generator.new(binding) }
+    let(:template) { May::Templator::Template.new(Fixtures.file('SampleViewController.m.erb')) }
+    let(:subject)  { May::Templator::Generator.new(binding) }
 
     describe 'generate' do
       it 'should render' do
