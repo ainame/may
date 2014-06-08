@@ -10,7 +10,7 @@ PATH is a file path which you want to generate file without extension name.
 EOS
         self.arguments = [
           ['PATH', :required],
-          ['SUPER_CLASS', :optional],
+          ['VAR TYPE', :optional]
         ]
 
         self.template_name = 'NSObject'

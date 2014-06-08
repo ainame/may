@@ -1,7 +1,29 @@
 module May
   class RenderBinding
+    class Property
+      attr_accessor :variable, :type
+
+      TYPE_MAP = {
+        string: 'NSString *',
+        number: 'NSNumber *',
+      }.freeze
+
+      def initialize(variable, type)
+        @variable, @type = variable, type
+      end
+
+      def objc_type
+        TYPE_MAP[type.to_sym] || 'id '
+      end
+
+      def objc_declaration
+        "@property (nonatomic, strong) #{objc_type}#{variable};"
+      end
+    end
+
     def initialize(hash)
       @hash = hash
+      @properties = hash[:properties].each_slice(2).map {|var, type| Property.new(var,type) }
     end
 
     def class_name
@@ -26,6 +48,10 @@ module May
 
     def options
       @hash[:options]
+    end
+
+    def properties
+      @properties
     end
   end
 end

@@ -31,6 +31,7 @@ module May
         @options          = arguments[:options]
         @super_class_name = arguments[:super_class_name]
         @template_name    = arguments[:template_name]
+        @properties       = arguments[:properties]
         @class_name       = File.basename(@path) if @path
       end
 
@@ -74,6 +75,7 @@ module May
         May::RenderBinding.new(
           class_name: @class_name,
           super_class_name: @super_class_name,
+          properties: @properties,
           options: @options,
           header: {
             organization_name: xcodeproj.organization_name,
