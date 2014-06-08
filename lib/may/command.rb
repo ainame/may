@@ -5,6 +5,7 @@ module May
     require 'may/application_context'
     require 'may/command/init'
     require 'may/command/generate'
+    require 'may/command/template'
     require 'may/custom_command'
 
     self.abstract_command = true
