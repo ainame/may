@@ -26,7 +26,6 @@ module May
             self.default_super_class = command.default_super_class
             self.arguments = [
               ['PATH', :required],
-              ['SUPER_CLASS', :optional],
             ].concat(command.arguments || [])
           end
           klass_name = command.command_name.capitalize
