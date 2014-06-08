@@ -22,7 +22,7 @@ module May
 
       def validate!
         super
-        help! 'Can\'t find a PATH' unless @path
+        help! 'Can\'t find a PATH'.ansi.red unless @path
       end
 
       def run

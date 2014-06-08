@@ -47,8 +47,12 @@ module May
       end
 
       def add_file(template_path, destination)
-        puts "use template: #{template_path}"
-        puts "write: #{destination}"
+        puts "use template: #{template_path}".ansi.bold
+        unless File.exists?(template_path)
+          warn "warning: Can't find a #{template_path}. So, abort this file.".ansi.yellow
+          return
+        end
+        puts "write: #{destination}".ansi.green
 
         templator = May::Templator.new(template_path, destination, bind_values)
         templator.write
