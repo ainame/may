@@ -7,13 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "<%= class_name %>.h"
-<% if options[:mock_test] %>
-#import <OCMock/OCMock.h>
-<% end %>
-<% if options[:async_test] %>
-#import <TKRGuard.h>
-<% end %>
 
 @interface <%= class_name %>Tests : XCTestCase
 
