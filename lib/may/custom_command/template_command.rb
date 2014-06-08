@@ -18,7 +18,7 @@ module May
       end
 
       private
-      def template_name(template_name)
+      def template(template_name)
         @command.template_name = template_name
       end
 
@@ -26,7 +26,7 @@ module May
         @command.description = description
       end
 
-      def default_super_class(default_super_class)
+      def super_class(default_super_class)
         @command.default_super_class = default_super_class
       end
 
