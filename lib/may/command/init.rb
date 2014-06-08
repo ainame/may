@@ -9,9 +9,10 @@ init command setup templates files, then it add .templates dir to your project.
 EOS
       def run
         context = ApplicationContext.new
-        destination = File.join(context.root_dir, '.templates')
-        return help! "Already exists #{destination}." if File.exist?(destination)
-        FileUtils.cp_r(context.template_dir, destination)
+        destination = context.root_dir
+        return help! "Already exists #{context.custom_file}." if File.exists?(context.custom_file)
+        FileUtils.cp(context.template_dir + '/Mayfile', destination)
+        FileUtils.cp_r(context.template_dir + '/.templates', destination)
         puts "add template files to #{destination}."
       end
     end

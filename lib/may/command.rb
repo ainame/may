@@ -12,9 +12,12 @@ module May
     self.version = VERSION
     self.description = 'may, the Objective-C source code generator.'
 
-    custom = May::CustomCommand.new(ApplicationContext.new)
-    custom.load
-    custom.eval_custom_file
-    May::CustomCommand::Definer::Generate.new(May::Command::Generate).define
+    context = ApplicationContext.new
+    if File.exists?(context.custom_file)
+      custom = May::CustomCommand.new(context)
+      custom.load
+      custom.eval_custom_file
+      May::CustomCommand::Definer::Generate.new(May::Command::Generate).define
+    end
   end
 end

@@ -22,7 +22,7 @@ module May
     end
 
     def custom_file
-      File.join(project_template_dir, 'Mayfile')
+      File.join(root_dir, 'Mayfile')
     end
   end
 end
