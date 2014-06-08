@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 require 'may/custom_command/dsl'
 
@@ -10,9 +11,9 @@ describe May::CustomCommand::DSL do
     context "register a sample command" do
       let(:subject) do
         May::CustomCommand::DSL.register_command 'sample' do
-          template_name 'NSObject'
+          template    'NSObject'
           description 'お寿司が好きです'
-          default_super_class 'AMEURLSession'
+          super_class 'AMEURLSession'
         end
       end
 
@@ -44,9 +45,9 @@ describe May::CustomCommand::DSL do
       let(:input) do
         str=<<EOS
         register_command 'sample' do
-          template_name 'Entity'
+          template    'Entity'
           description 'this is entity.'
-          default_super_class 'AMEEntity'
+          super_class 'AMEEntity'
         end
 EOS
       end

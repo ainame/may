@@ -23,7 +23,8 @@ module May
 
     def initialize(hash)
       @hash = hash
-      @properties = hash[:properties].each_slice(2).map {|var, type| Property.new(var,type) }
+      prop_array = hash[:properties] || []
+      @properties = prop_array.each_slice(2).map {|var, type| Property.new(var,type) }
     end
 
     def class_name

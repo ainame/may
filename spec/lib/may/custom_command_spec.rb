@@ -20,9 +20,9 @@ describe May::CustomCommand do
     let(:input) do
       <<EOS
 register_command 'sample' do
-  template_name 'Entity'
+  template 'Entity'
   description 'this is entity.'
-  default_super_class 'AMEEntity'
+  super_class 'AMEEntity'
 end
 EOS
     end
