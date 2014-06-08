@@ -17,8 +17,9 @@ module May
 
       def self.options
         [
-          ['--super_class', 'Specify super class']
-        ].concat(super)
+          ['--super_class', 'Specify super class'],
+          ['--help',        'Show help banner of specified command']
+        ]
       end
 
       def initialize(argv)
